@@ -17,11 +17,6 @@ class BlogEntry(db.Model):
         self.title = title
         self.body = body
 
-#@app.route('/viewpost', methods=['GET'])
-#def view_post():
-#    return render_template('viewpost.html',title="Blogorama!", 
-#        posts=posts)
-
 @app.route('/newpost', methods=['GET', 'POST'])
 def new_post():
     if request.method == 'POST':
@@ -39,9 +34,8 @@ def new_post():
         new_post = BlogEntry(title, body)
         db.session.add(new_post)
         db.session.commit()
-        id = BlogEntry.id
-        if id:
-            return render_template('blog.html', id=id)
+        id = new_post.id
+        return redirect('/blog?id={}'.format(id))
     else:
         return render_template('newpost.html')
     return redirect('/blog')
@@ -49,10 +43,10 @@ def new_post():
 @app.route('/blog')
 def blog():
     id = request.args.get('id')
-    #if id != "":
-    #posts = BlogEntry.query.filter_by(id=id).all()
-    #else:
-    posts = BlogEntry.query.all()
+    if id: 
+        posts = BlogEntry.query.filter_by(id=int(id)).all()
+    else:
+        posts = BlogEntry.query.all()
 
     return render_template('blog.html',title="Blogorama!", posts=posts)
 
