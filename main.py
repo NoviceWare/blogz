@@ -1,12 +1,11 @@
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, flash
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://get-it-done:hello@localhost/get-it-done?mysql_sock=/var/lib/mysql/mysql.sock'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:hello@localhost/build-a-blog?unix_socket=/var/lib/mysql/mysql.sock' 
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
-
 
 class BlogEntry(db.Model):
 
@@ -18,34 +17,50 @@ class BlogEntry(db.Model):
         self.title = title
         self.body = body
 
+#@app.route('/viewpost', methods=['GET'])
+#def view_post():
+#    return render_template('viewpost.html',title="Blogorama!", 
+#        posts=posts)
 
-@app.route('/', methods=['POST', 'GET'])
-def index():
-
+@app.route('/newpost', methods=['GET', 'POST'])
+def new_post():
     if request.method == 'POST':
         title = request.form['title']
         body = request.form['body']
-        new_entry = BlogEntry(title, body)
-        db.session.add(new_entry)
+        errors = 0
+        if not title:
+            flash('Post title is required', 'titleerror')
+            errors += 1
+        if not body:
+            flash('Post body is required', 'bodyerror')
+            errors += 1
+        if errors > 0:
+            return render_template('newpost.html')
+        new_post = BlogEntry(title, body)
+        db.session.add(new_post)
         db.session.commit()
+        id = BlogEntry.id
+        if id:
+            return render_template('blog.html', id=id)
+    else:
+        return render_template('newpost.html')
+    return redirect('/blog')
 
-    tasks = Task.query.filter_by(completed=False).all()
-    completed_tasks = Task.query.filter_by(completed=True).all()
-    return render_template('blog.html',title="Blogorama!", 
-        tasks=tasks, completed_tasks=completed_tasks)
+@app.route('/blog')
+def blog():
+    id = request.args.get('id')
+    #if id != "":
+    #posts = BlogEntry.query.filter_by(id=id).all()
+    #else:
+    posts = BlogEntry.query.all()
 
+    return render_template('blog.html',title="Blogorama!", posts=posts)
 
-@app.route('/delete-task', methods=['POST'])
-def delete_task():
+@app.route('/')
+def index():
+    return render_template('base.html',title="Blogorama!")
 
-    task_id = int(request.form['task-id'])
-    task = Task.query.get(task_id)
-    task.completed = True
-    db.session.add(task)
-    db.session.commit()
-
-    return redirect('/')
-
+app.secret_key = "DSGASDT#QWE#WERTWETWETWE@#$@#$"
 
 if __name__ == '__main__':
     app.run()
