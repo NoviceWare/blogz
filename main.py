@@ -1,5 +1,6 @@
 from flask import Flask, request, redirect, render_template, flash
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.dialects.mysql import MEDIUMTEXT
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -10,8 +11,8 @@ db = SQLAlchemy(app)
 class BlogEntry(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(120))
-    body = db.Column(db.String(512))
+    title = db.Column(db.String(1024))
+    body = db.Column(db.Text())
 
     def __init__(self, title, body):
         self.title = title
