@@ -4,8 +4,9 @@
     {% if authors|length == 0 %}
         <span><h3>Sorry, no authors yet!</h3></span>
     {% else %}
+        <h3>Bloggerz:</h3>
         {% for author in authors %}
-            <span><h3><a href="/singleUser.html?userid={{author.id}}">{{ author.login }}</a></h3></span>
+            <span><h3><a href="/blog?userid={{author.id}}">{{ author.login }}</a></h3></span>
         {% endfor %}
 {% endif %}
 

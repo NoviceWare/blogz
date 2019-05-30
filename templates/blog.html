@@ -5,9 +5,13 @@
     {% if posts|length == 0 %}
             <span><h3>Sorry, no blog posts yet!</h3></span>
     {% else %}
+        <h3>Posts:</h3></span>
         {% for post in posts %}
-            <span><h3><a href="/blog?id={{post.id}}">{{ post.title }}</a> by {{ post.login }}</h3></span>
-            <!-- </span>{{ post.body }}</span> -->
+        <fieldset width="400px">
+            <h3><a href="/blog?id={{post.id}}">{{ post.title }}</a></h3>
+            <span>{{ post.body }}<br><br>
+            <span>Written by: <a href="/blog?userid={{post.owner.id}}">{{ post.owner.login }}</a>
+        </fieldset>
         {% endfor %}
     {% endif %}
 

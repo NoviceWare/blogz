@@ -179,7 +179,6 @@ def blog():
 
 @app.route('/', methods = ['GET', 'POST'])
 def index():
-    #authors = User.query.order_by(login=login).all()
     authors = User.query.order_by('login').all()
     return render_template('index.html',title="Blogz!", authors=authors)
 
