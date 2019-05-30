@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form id="loginform" method="POST">
+  <fieldset>
+    <legend>
+      <h2>Login:</h2>
+    </legend>
+    <label for="login">Username</label>
+    <input form="loginform" id="login" name="login" type="text" value="{{ request.form['login'] }}">
+    <span class="error">
+      {% with errors = get_flashed_messages(category_filter=["loginerror"]) %}
+      {% if errors %}
+      <div class="alert-message block-message error">
+        <ul>
+          {%- for msg in errors %}
+          <li>{{ msg }}</li>
+          {% endfor -%}
+        </ul>
+      </div>
+      {% endif %}
+      {% endwith %}
+    </span>
+    <br>
+    <label for="password">Password</label>
+    <input form="loginform" name="password" type="password">
+    <span class="error"></span>
+    {% with errors = get_flashed_messages(category_filter=["passworderror"]) %}
+    {% if errors %}
+    <div class="alert-message block-message error">
+      <ul>
+        {%- for msg in errors %}
+        <li>{{ msg }}</li>
+        {% endfor -%}
+      </ul>
+    </div>
+    {% endif %}
+    {% endwith %}
+    <input form="loginform" form="login" type="submit">
+  </fieldset>
+</form>
+
+{% if error %}
+<p class='error'>{{ error }}</p>
+{% endif %}
+{% endblock %}

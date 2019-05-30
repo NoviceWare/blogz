@@ -1,59 +1,44 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <form id="newpost" method='POST'>
-        <fieldset form="newpost">
-            <legend><h2>New Blog Post</h2></legend>
-            <!-- <table> -->
-                <!-- <tr><td> -->
-                  <label for="title">Title</label>
-                    <input form="newpost" id="title" type="text" name="title" style="width: 400px;" value="{{ request.form['title'] }}">
-                    <br>
-                    <span class="error">
-                        <!-- <td> -->
-                            {% with errors = get_flashed_messages(category_filter=["titleerror"]) %}
-                            {% if errors %}
-                            <div class="alert-message block-message error">
-                          <ul>
-                            {%- for msg in errors %}
-                            <li>{{ msg }}</li>
-                            {% endfor -%}
-                          </ul>
-                            </div>
-                            {% endif %}
-                            {% endwith %}
-                        <!-- </td> -->
-                    </span>
-                    <br>
-                <!-- </td></tr> -->
-                <!-- <tr><td> -->
-                  <label for="body">Body</label>
-                    <!-- <input form="newpost" id="body" type="text" style="width: 400px; height: 200px;" name="body" value="{{ request.form['body'] }}"> -->
-                    <textarea form="newpost" id="body" type="text" style="width: 400px; height: 200px;" name="body">{{ request.form['body'] }}</textarea>
-                    <br>
-                    <span class="error">
-                        <!-- <td> -->
-                            {% with errors = get_flashed_messages(category_filter=["bodyerror"]) %}
-                            {% if errors %}
-                            <div class="alert-message block-message error">
-                          <ul>
-                            {%- for msg in errors %}
-                            <li>{{ msg }}</li>
-                            {% endfor -%}
-                          </ul>
-                            </div>
-                            {% endif %}
-                            {% endwith %}
-                        <!-- </td> -->
-                    </span>
-                    <br>
-                <!-- </td></tr> -->
-                <!-- <tr><td> -->
-                <input form="newpost" id="submit" type="submit" value="Add Post">
-                <input form="newpost" id="reset" type="reset" value="Clear Form">
-            </fieldset>
-    </form>
-                <!-- </td></tr> -->
-            <!-- </table> -->
-
+<form id="newpost" method='POST'>
+    <span><h2>New Blog Post</h2></span>
+    <span><label for="title">Title</label></span>
+    <span><input form="newpost" id="title" type="text" name="title" style="width: 400px;" value="{{ request.form['title'] }}"></span>
+    <br>
+    <span class="error">
+      {% with errors = get_flashed_messages(category_filter=["titleerror"]) %}
+      {% if errors %}
+      <div class="alert-message block-message error">
+        <ul>
+          {%- for msg in errors %}
+          <li>{{ msg }}</li>
+          {% endfor -%}
+        </ul>
+      </div>
+      {% endif %}
+      {% endwith %}
+    </span>
+    <br>
+    <span><label for="body">Body</label></span>
+    <span><textarea form="newpost" id="body" type="text" style="width: 400px; height: 200px;"
+      name="body">{{ request.form['body'] }}</textarea></span>
+    <br>
+    <span class="error">
+      {% with errors = get_flashed_messages(category_filter=["bodyerror"]) %}
+      {% if errors %}
+      <div class="alert-message block-message error">
+        <ul>
+          {%- for msg in errors %}
+          <li>{{ msg }}</li>
+          {% endfor -%}
+        </ul>
+      </div>
+      {% endif %}
+      {% endwith %}
+    </span>
+    <br>
+    <span><input form="newpost" id="submit" type="submit" value="Add Post"></span>
+    <span><input form="newpost" id="reset" type="reset" value="Clear Form"></span>
+</form>
 {% endblock %}

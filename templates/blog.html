@@ -3,15 +3,11 @@
 {% block content %}
 
     {% if posts|length == 0 %}
-        <fieldset>
-            <h3>No blog posts yet!</h3>
-        </fieldset>
+            <span><h3>Sorry, no blog posts yet!</h3></span>
     {% else %}
         {% for post in posts %}
-        <fieldset>
-            <h3><a href="/blog?id={{post.id}}">{{ post.title }}</a></h3>
-            {{ post.body }}
-        </fieldset>
+            <span><h3><a href="/blog?id={{post.id}}">{{ post.title }}</a> by {{ post.login }}</h3></span>
+            <!-- </span>{{ post.body }}</span> -->
         {% endfor %}
     {% endif %}
 

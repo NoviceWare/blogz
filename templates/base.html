@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>{{title}}</title>
+        <link rel="stylesheet" href="/css/normalize.css">
         <style type="text/css">
           .error {
               color: red;
@@ -10,8 +11,16 @@
     </head>
 <body>
   <nav>
-    <a href="/blog">Blog Home</a> | 
-    <a href="/newpost">Add New Post</a>
+    <a href="/">Home</a> |
+    <a href="/blog">Blogs</a> |
+    {% if session['login'] %}
+      <a href="/newpost">Add New Post</a> |
+      <a href="/logout">Logout</a>
+    {% else %}
+      <a href="/login">Login</a> |
+      <a href="/signup">Create Account</a>
+    {% endif %}
+
   </nav>
     {% block content %}
     {% endblock %}

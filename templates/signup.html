@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form id="signup" method="POST">
+    <label for="login">Username</label>
+    <input form="signup" id="login" name="login" type="text" value="{{ request.form['login'] }}">
+    <span class="error">
+      {% with errors = get_flashed_messages(category_filter=["loginerror"]) %}
+      {% if errors %}
+      <div class="alert-message block-message error">
+        <ul>
+          {%- for msg in errors %}
+          <li>{{ msg }}</li>
+          {% endfor -%}
+        </ul>
+      </div>
+      {% endif %}
+      {% endwith %}
+    </span>
+    <br>
+    <label for="password">Password</label>
+    <input form="signup" name="password" type="password">
+    <span class="error"></span>
+    {% with errors = get_flashed_messages(category_filter=["passworderror"]) %}
+    {% if errors %}
+    <div class="alert-message block-message error">
+      <ul>
+        {%- for msg in errors %}
+        <li>{{ msg }}</li>
+        {% endfor -%}
+      </ul>
+    </div>
+    {% endif %}
+    {% endwith %}
+    <br>
+    <label for="verify">Verify Password</label>
+    <input form="signup" name="verify" type="password">
+    <span class="error"></span>
+    <br>
+    <label for="email">Email</label>
+    <input form="signup" id="email" name="email" value="{{ request.form['email'] }}">
+    <span class="error"></span>
+    {% with errors = get_flashed_messages(category_filter=["emailerror"]) %}
+    {% if errors %}
+    <div class="alert-message block-message error">
+      <ul>
+        {%- for msg in errors %}
+        <li>{{ msg }}</li>
+        {% endfor -%}
+      </ul>
+    </div>
+    {% endif %}
+    {% endwith %}
+    <br>
+    <input form="signup" type="submit">
+</form>
+
+{% if error %}
+<p class='error'>{{ error }}</p>
+{% endif %}
+
+{% endblock %}
